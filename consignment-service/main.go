@@ -19,22 +19,28 @@ const (
 
 type repository interface {
 	Create(*pb.Consignment) (*pb.Consignment, error)
+	GetAll() []*pb.Consignment
 }
 
 // Repository - Dummy repository, this simulates the use of a datastore
 // of some kind. We'll replace this with a real implementation later on.
-type Respository struct {
+type Repository struct {
 	mu           sync.RWMutex
 	consignments []*pb.Consignment
 }
 
 // Create a new consignment
-func (repo *Respository) Create(consignment *pb.Consignment) (*pb.Consignment, error) {
+func (repo *Repository) Create(consignment *pb.Consignment) (*pb.Consignment, error) {
 	repo.mu.Lock()
 	updated := append(repo.consignments, consignment)
 	repo.consignments = updated
 	repo.mu.Unlock()
 	return consignment, nil
+}
+
+// GetAll consignments
+func (repo *Repository) GetAll() []*pb.Consignment {
+	return repo.consignments
 }
 
 // Service should implement all of the methods to satisfy the service
@@ -61,9 +67,15 @@ func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment) (*
 	return &pb.Response{Created: true, Consignment: consignment}, nil
 }
 
+// GetConsignments -
+func (s *service) GetConsignments(ctx context.Context, req *pb.GetRequest) (*pb.Response, error) {
+	consignments := s.repo.GetAll()
+	return &pb.Response{Consignments: consignments}, nil
+}
+
 func main() {
 
-	repo := &Respository{}
+	repo := &Repository{}
 
 	// Set-up our GRPC server.
 	lis, err := net.Listen("tcp", port)
