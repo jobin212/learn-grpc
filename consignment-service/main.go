@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	pb "github.com/jobin212/learn-grpc/consignment-service/proto/consignment"
+	pb "github.com/jobin212/shippy/consignment-service/proto/consignment"
 	"github.com/micro/go-micro"
 )
 
