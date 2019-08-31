@@ -4,8 +4,8 @@ import (
 	"context"
 	"log"
 
+	pb "github.com/jobin212/shippy/consignment-service/proto/consignment"
 	vesselProto "github.com/jobin212/shippy/vessel-service/proto/vessel"
-	pb "github.com/EwanValentine/shippy-service-consignment/proto/consignment"
 )
 
 type handler struct {
@@ -36,7 +36,7 @@ func (s *handler) CreateConsignment(ctx context.Context, req *pb.Consignment, re
 	return nil
 }
 
-func (s *handler) GetConsignments(ctx context.Context, req. *pb.GetRequest, res *pb.Response) error {
+func (s *handler) GetConsignments(ctx context.Context, req *pb.GetRequest, res *pb.Response) error {
 	consignments, err := s.repository.GetAll()
 	if err != nil {
 		return err

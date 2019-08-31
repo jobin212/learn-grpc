@@ -26,7 +26,7 @@ func (repository *MongoRepository) GetAll() ([]*pb.Consignment, error) {
 	var consignments []*pb.Consignment
 	for cur.Next(context.Background()) {
 		var consignment *pb.Consignment
-		if err := cur.Decode(&consignemnt); err != nil {
+		if err := cur.Decode(&consignment); err != nil {
 			return nil, err
 		}
 		consignments = append(consignments, consignment)
