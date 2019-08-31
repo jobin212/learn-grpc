@@ -38,9 +38,9 @@ func main() {
 	}
 	defer client.Disconnect(context.TODO())
 
-	consignmentColelction := client.Database("shippy").Collection("consignments")
+	consignmentCollection := client.Database("shippy").Collection("consignments")
 
-	repository := &MongoRepository{consignmentColelction}
+	repository := &MongoRepository{consignmentCollection}
 	vesselClient := vesselProto.NewVesselServiceClient("shippy.service.vessel", srv.Client())
 	h := &handler{repository, vesselClient}
 
