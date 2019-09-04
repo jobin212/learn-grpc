@@ -25,3 +25,15 @@ services:
     image: mongo
     ports:
       - 27017:27017
+
+  user-service:
+    build: ./shippy-service-user
+    ports: 
+      - 50053:50051
+    environment:
+      MICRO_ADDRESS: ":50051"
+  
+  database:
+    image: postgres
+    ports: 
+      - 5432:5432
