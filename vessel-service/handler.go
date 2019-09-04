@@ -30,5 +30,6 @@ func (s *handler) Create(ctx context.Context, req *pb.Vessel, res *pb.Response) 
 	}
 
 	res.Vessel = req
+	res.Created = true
 	return nil
 }
