@@ -38,19 +38,6 @@ func main() {
 	}
 	defer client.Disconnect(context.TODO())
 
-	fmt.Println("Attempting...")
-	log.Println("Attempting...!")
-
-	// Check the connection
-	err = client.Ping(context.TODO(), nil)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println("CONNECTED TO MONGO")
-	log.Println("Connected to MongoDB!")
-
 	consignmentCollection := client.Database("shippy").Collection("consignments")
 
 	repository := &MongoRepository{consignmentCollection}

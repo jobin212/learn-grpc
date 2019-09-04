@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
+	"log"
 
 	pb "github.com/jobin212/shippy/consignment-service/proto/consignment"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -22,7 +24,11 @@ func (repository *MongoRepository) Create(consignment *pb.Consignment) error {
 }
 
 func (repository *MongoRepository) GetAll() ([]*pb.Consignment, error) {
-	cur, err := repository.collection.Find(context.Background(), nil, nil)
+	cur, err := repository.collection.Find(context.Background(), bson.D{})
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer cur.Close(context.Background())
 	var consignments []*pb.Consignment
 	for cur.Next(context.Background()) {
 		var consignment *pb.Consignment

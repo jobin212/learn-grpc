@@ -40,14 +40,6 @@ func main() {
 	}
 	defer client.Disconnect(context.TODO())
 
-	err = client.Ping(context.TODO(), nil)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println("Connected to MongoDB!")
-
 	vesselsCollection := client.Database("shippy").Collection("vessels")
 
 	repository := &VesselRepository{vesselsCollection}
