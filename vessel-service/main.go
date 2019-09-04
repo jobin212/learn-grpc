@@ -14,6 +14,15 @@ const (
 	defaultHost = "datastore:27017"
 )
 
+func createDummyData(repo repository) {
+	vessels := []*pb.Vessel{
+		{Id: "vessel001", Name: "Kane's Salty Secret", MaxWeight: 200000, Capacity: 500},
+	}
+	for _, v := range vessels {
+		repo.Create(v)
+	}
+}
+
 func main() {
 	srv := micro.NewService(
 		micro.Name("shippy.service.vessel"),
@@ -34,16 +43,16 @@ func main() {
 	err = client.Ping(context.TODO(), nil)
 
 	if err != nil {
-		log.Println("NO MONGO")
 		log.Fatal(err)
 	}
 
 	fmt.Println("Connected to MongoDB!")
-	log.Println("CONNECTED TO MONGO")
 
 	vesselsCollection := client.Database("shippy").Collection("vessels")
 
 	repository := &VesselRepository{vesselsCollection}
+
+	createDummyData(repository)
 
 	// Register implementation
 	pb.RegisterVesselServiceHandler(srv.Server(), &handler{repository})
