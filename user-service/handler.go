@@ -1,9 +1,8 @@
 package main
 
 import (
-	"context"
-
 	pb "github.com/jobin212/shippy/user-service/proto/user"
+	"golang.org/x/net/context"
 )
 
 type service struct {
